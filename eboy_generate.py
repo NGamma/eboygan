@@ -23,10 +23,10 @@ flags.DEFINE_string('image_format', 'png',
                     'The format under which to save images.')
 
 SCALE_PATTERN = re_compile(r'^.*-(\d+)x.png$')
-
+file_path = glob.glob("/content/drive/My\ Drive/gifs")
 
 def main(_):
-        for image_url in FLAGS.input_data:
+        for image_url in file_path:
             logging.info('Processing %s' % image_url)
             image = Image.open(image_url).convert('RGB')
             image_hash = md5(image_url.encode()).hexdigest()
