@@ -28,7 +28,7 @@ SCALE_PATTERN = re_compile(r'^.*-(\d+)x.png$')
 def main(_):
         for image_url in FLAGS.input_data:
             logging.info('Processing %s' % image_url)
-            image = Image.open(BytesIO(get(image_url).content)).convert('RGB')
+            image = Image.open(image_url).convert('RGB')
             image_hash = md5(image_url.encode()).hexdigest()
 
             # Resize to pixel size of 1, if needed.
