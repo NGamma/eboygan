@@ -29,8 +29,8 @@ def main(_):
     if not isdir(FLAGS.images_dir):
         makedirs(FLAGS.images_dir)
 
-    with open(FLAGS.input_data) as json_file:
-        for image_url in json_file:
+    
+        for image_url in FLAGS.input_data:
             logging.info('Processing %s' % image_url)
             image = Image.open(BytesIO(get(image_url).content)).convert('RGB')
             image_hash = md5(image_url.encode()).hexdigest()
