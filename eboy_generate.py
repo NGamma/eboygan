@@ -24,11 +24,11 @@ flags.DEFINE_string('image_format', 'png',
                     'The format under which to save images.')
 
 SCALE_PATTERN = re_compile(r'^.*-(\d+)x.png$')
-file_path = glob.glob("/content/drive/My Drive/gifs")
+file_path = glob.glob("/content/drive/My Drive/gifs/***.png")
 
 def main(_):
-  for file in file_path:
-    for f in file:
+  for f in file_path:
+    
       logging.info('Processing %s' % f)
       #image = Image.open(file).convert('RGB')
       image = Image.open(f)
