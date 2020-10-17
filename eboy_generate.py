@@ -35,7 +35,7 @@ def main(_):
       image_hash = md5(f.encode()).hexdigest()
 
       # Resize to pixel size of 1, if needed.
-      scale_match = SCALE_PATTERN.match(image_url)
+      scale_match = SCALE_PATTERN.match(f)
       if scale_match:
           scale = int(scale_match.group(1))
           logging.warning('Resizing by %dx' % scale)
