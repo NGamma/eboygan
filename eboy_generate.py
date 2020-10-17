@@ -10,6 +10,7 @@ from os.path import isdir
 from PIL import Image
 from re import compile as re_compile
 from requests import get
+import glob
 
 FLAGS = flags.FLAGS
 flags.DEFINE_integer('size', 512, 'The size of the square images to crop.')
