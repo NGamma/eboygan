@@ -26,10 +26,6 @@ SCALE_PATTERN = re_compile(r'^.*-(\d+)x.png$')
 
 
 def main(_):
-    if not isdir(FLAGS.images_dir):
-        makedirs(FLAGS.images_dir)
-
-    
         for image_url in FLAGS.input_data:
             logging.info('Processing %s' % image_url)
             image = Image.open(BytesIO(get(image_url).content)).convert('RGB')
