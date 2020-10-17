@@ -27,51 +27,51 @@ SCALE_PATTERN = re_compile(r'^.*-(\d+)x.png$')
 file_path = glob.glob("/content/drive/My Drive/gifs")
 
 def main(_):
-        for image_url in file_path:
-            logging.info('Processing %s' % image_url)
-            image = Image.open(image_url).convert('RGB')
-            image_hash = md5(image_url.encode()).hexdigest()
+  for image_url in file_path:
+      logging.info('Processing %s' % image_url)
+      image = Image.open(image_url).convert('RGB')
+      image_hash = md5(image_url.encode()).hexdigest()
 
-            # Resize to pixel size of 1, if needed.
-            scale_match = SCALE_PATTERN.match(image_url)
-            if scale_match:
-                scale = int(scale_match.group(1))
-                logging.warning('Resizing by %dx' % scale)
-                image = image.resize((image.width // scale,
-                                      image.height // scale), Image.NEAREST)
+      # Resize to pixel size of 1, if needed.
+      scale_match = SCALE_PATTERN.match(image_url)
+      if scale_match:
+          scale = int(scale_match.group(1))
+          logging.warning('Resizing by %dx' % scale)
+          image = image.resize((image.width // scale,
+                                image.height // scale), Image.NEAREST)
 
-            # Divide the image into squares. If it doesn't evenly divide, shift
-            # the last crops in to avoid empty areas.
-            for y in range(ceil(image.height / FLAGS.stride)):
-                y_min = y * FLAGS.stride
-                y_max = y * FLAGS.stride + FLAGS.size
+      # Divide the image into squares. If it doesn't evenly divide, shift
+      # the last crops in to avoid empty areas.
+      for y in range(ceil(image.height / FLAGS.stride)):
+          y_min = y * FLAGS.stride
+          y_max = y * FLAGS.stride + FLAGS.size
 
-                if y_max > image.height:
-                    y_max = image.height
-                    y_min = y_max - FLAGS.size
+          if y_max > image.height:
+              y_max = image.height
+              y_min = y_max - FLAGS.size
 
-                for x in range(ceil(image.width / FLAGS.stride)):
-                    x_min = x * FLAGS.stride
-                    x_max = x * FLAGS.stride + FLAGS.size
+          for x in range(ceil(image.width / FLAGS.stride)):
+              x_min = x * FLAGS.stride
+              x_max = x * FLAGS.stride + FLAGS.size
 
-                    if x_max > image.width:
-                        x_max = image.width
-                        x_min = x_max - FLAGS.size
+              if x_max > image.width:
+                  x_max = image.width
+                  x_min = x_max - FLAGS.size
 
-                    # Create the cropped image.
-                    crop = image.crop((x_min, y_min, x_max, y_max))
+              # Create the cropped image.
+              crop = image.crop((x_min, y_min, x_max, y_max))
 
-                    # Discard predominantly empty crops.
-                    colors = crop.getcolors()
-                    if colors and len(colors) < FLAGS.min_colors:
-                        logging.warning('Skipping empty crop')
-                        continue
+              # Discard predominantly empty crops.
+              colors = crop.getcolors()
+              if colors and len(colors) < FLAGS.min_colors:
+                  logging.warning('Skipping empty crop')
+                  continue
 
-                    # Save the image
-                    name = '%s/%s_%d_%d.%s' % (FLAGS.images_dir, image_hash, y,
-                                               x, FLAGS.image_format)
-                    crop.save(name, FLAGS.image_format)
-                    logging.info('Saved %s' % name)
+              # Save the image
+              name = '%s/%s_%d_%d.%s' % (FLAGS.images_dir, image_hash, y,
+                                         x, FLAGS.image_format)
+              crop.save(name, FLAGS.image_format)
+              logging.info('Saved %s' % name)
 
 
 if __name__ == '__main__':
