@@ -28,10 +28,11 @@ file_path = glob.glob("/content/drive/My Drive/gifs")
 
 def main(_):
   for file in file_path:
-      logging.info('Processing %s' % file)
+    for f in file:
+      logging.info('Processing %s' % f)
       #image = Image.open(file).convert('RGB')
-      image = Image.open(file)
-      image_hash = md5(file.encode()).hexdigest()
+      image = Image.open(f)
+      image_hash = md5(f.encode()).hexdigest()
 
       # Resize to pixel size of 1, if needed.
       scale_match = SCALE_PATTERN.match(image_url)
