@@ -27,10 +27,11 @@ SCALE_PATTERN = re_compile(r'^.*-(\d+)x.png$')
 file_path = glob.glob("/content/drive/My Drive/gifs")
 
 def main(_):
-  for image_url in file_path:
-      logging.info('Processing %s' % image_url)
-      image = Image.open(image_url).convert('RGB')
-      image_hash = md5(image_url.encode()).hexdigest()
+  for file in file_path:
+      logging.info('Processing %s' % file)
+      #image = Image.open(file).convert('RGB')
+      image = Image.open(file)
+      image_hash = md5(file.encode()).hexdigest()
 
       # Resize to pixel size of 1, if needed.
       scale_match = SCALE_PATTERN.match(image_url)
