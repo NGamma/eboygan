@@ -30,8 +30,7 @@ def main(_):
   for f in file_path:
     
       logging.info('Processing %s' % f)
-      #image = Image.open(file).convert('RGB')
-      image = Image.open(f)
+      image = Image.open(f).convert('RGB')
       image_hash = md5(f.encode()).hexdigest()
 
       # Resize to pixel size of 1, if needed.
