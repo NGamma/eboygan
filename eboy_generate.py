@@ -12,7 +12,7 @@ from re import compile as re_compile
 from requests import get
 
 FLAGS = flags.FLAGS
-flags.DEFINE_integer('size', 128, 'The size of the square images to crop.')
+flags.DEFINE_integer('size', 512, 'The size of the square images to crop.')
 flags.DEFINE_integer('stride', 32, 'The stride of the sliding crop window.')
 flags.DEFINE_integer('min_colors', 5, 'The minimum number of colors per crop.')
 flags.DEFINE_string('input_data', 'eboy_data.json',
@@ -30,7 +30,7 @@ def main(_):
         makedirs(FLAGS.images_dir)
 
     with open(FLAGS.input_data) as json_file:
-        for image_url in json_load(json_file)['image_urls']:
+        for image_url in json_file:
             logging.info('Processing %s' % image_url)
             image = Image.open(BytesIO(get(image_url).content)).convert('RGB')
             image_hash = md5(image_url.encode()).hexdigest()
